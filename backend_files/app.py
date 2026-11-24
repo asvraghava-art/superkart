@@ -2,6 +2,7 @@
 from flask import Flask, request, jsonify
 import pandas as pd
 import joblib
+from io import StringIO
 
 app = Flask(__name__)
 
@@ -10,6 +11,19 @@ model = joblib.load("superkart_model.joblib")
 @app.route("/")
 def home():
     return "SuperKart Sales Forecast API is running"
+
+@app.route("/v1/predictbatch", methods=["POST"])
+def predict_batch():
+
+    file = request.files["file"]
+
+    df = pd.read_csv(StringIO(file.read().decode("utf-8")))
+
+    predictions = model.predict(df)
+
+    return jsonify(
+        {str(i): float(pred) for i, pred in enumerate(predictions)}
+    )
 
 @app.route("/v1/predict", methods=["POST"])
 def predict():
