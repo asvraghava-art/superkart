@@ -61,7 +61,7 @@ if st.button("Predict Sales"):
     }
 
     response = requests.post(
-        "http://backend:5000/predict",
+        "http://backend:5000/v1/predict",
         json=payload
     )
 

@@ -11,7 +11,7 @@ model = joblib.load("superkart_model.joblib")
 def home():
     return "SuperKart Sales Forecast API is running"
 
-@app.route("/predict", methods=["POST"])
+@app.route("/v1/predict", methods=["POST"])
 def predict():
 
     data = request.get_json()
